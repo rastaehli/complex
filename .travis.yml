@@ -2,13 +2,13 @@ sudo: required
 services:
   - docker
 
-before_install
+before_install:
   - docker build -t rastaehli/client-test -f ./client/Dockerfile.dev ./client
 
 script:
   - docker run -e CI=true rastaehli/client-test npm test -- --coverage
 
-after_success
+after_success:
   - docker build -t rastaehli/multi-client ./client
   - docker build -t rastaehli/multi-nginx ./nginx
   - docker build -t rastaehli/multi-server ./server
