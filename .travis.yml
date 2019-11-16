@@ -1,0 +1,21 @@
+sudo: required
+services:
+  - docker
+
+before_install
+  - docker build -t rastaehli/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true rastaehli/react-test npm test -- --coverage
+
+after_success
+  - docker build -t rastaehli/multi-client ./client
+  - docker build -t rastaehli/multi-nginx ./nginx
+  - docker build -t rastaehli/multi-server ./server
+  - docker build -t rastaehli/multi-worker ./worker
+  #push to dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
+  - docker push rastaehli/multi-client
+  - docker push rastaehli/multi-nginx
+  - docker push rastaehli/multi-server
+  - docker push rastaehli/multi-worker
