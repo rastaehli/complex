@@ -14,6 +14,7 @@ after_success:
   - docker build -t rstaehli/multi-server ./server
   - docker build -t rstaehli/multi-worker ./worker
   #push to dockerhub
+  - echo "just testing"
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
   - docker push rstaehli/multi-client
   - docker push rstaehli/multi-nginx
