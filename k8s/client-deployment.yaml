@@ -3,7 +3,7 @@ kind: Deployment
 metadata: 
   name: client-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: web
@@ -17,3 +17,4 @@ spec:
           image: rstaehli/multi-client
           ports:
             - containerPort: 3000
+          imagePullPolicy: Always
